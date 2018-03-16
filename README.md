@@ -69,19 +69,20 @@ npm run image:run -- start --
 
 ## API
 
-### GET `/api/v1/tracks?keyword={keyword}&category={category}&limit={limit}&offset={offset}`
+## Get Tracks
+#### GET `/api/v1/tracks?keyword={keyword}&category={category}&limit={limit}&offset={offset}`
 Retrieves an array of tracks that match the query string criteria.
 #### Request
 Filters are passed in the query string:
-Name | Type | Description | Possible Values
---- | --- | --- | ---
-keyword | string | All or part of a word to match against | any string
-category | string | Catetories to search | name, composer, album, genre, artist, all (default),
-limit | number | Limits the number of returned matches | any positive integer
-offset | number | Specifies the number of rows to skip | any positive integer
+| Name | Type | Description | Possible Values
+| --- | --- | --- | ---
+| keyword | string | All or part of a word to match against | any string
+| category | string | Catetories to search | name, composer, album, genre, artist, all (default),
+| limit | number | Limits the number of returned matches | any positive integer
+| offset | number | Specifies the number of rows to skip | any positive integer
 #### Response
 If not matches, then a `404 Not Found` is returned, otherwise:
-```json
+```js
 [
   {
     "Name": "Walk On Water",  // name of the track
@@ -97,13 +98,14 @@ If not matches, then a `404 Not Found` is returned, otherwise:
 ---
 
 ## Assumptions
-* 
+* Megabytes expressed in base 2
 
 ## Design Decisions
-* I've never played with `KOA` before, so it was chosen as the node server framework.
+* Since I've only played with `KOA` once before, it was chosen as the node server framework.
 * To get some degree of type safety and better editor autocomplete and insights, `typescript` was implemented.
 * To keep things simple and portable, `sqlite` was added for file-based data persistence.
 * I'm using ES6 imports/exports rather than Node's CommonJS module loader to have parity with my frontend coding style.
+* I skipped using an ORM and a DB migration/seeder b/c of the simplicity of this endpoint and b/c the DB is readonly and already created.
 
 ## Thoughts on Improvements
 Because time was limited, there were many improvements I didn't implement.  These include:
