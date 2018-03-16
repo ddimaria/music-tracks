@@ -11,7 +11,7 @@
     "fix": "node_modules/tslint/bin/tslint -c tslint.json -p tsconfig.json --fix --force",
     "image:build": "docker build --tag loyalty-checkin .",
     "image:run": "docker run --rm -ti loyalty-checkin",
-    "test": "node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.spec.ts",
+    "test": "node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.spec.ts && exit 0",
     "coverage": "node_modules/nyc/bin/nyc.js --reporter=html --reporter=text node_modules/mocha/bin/mocha --exit -r ts-node/register ./test/**/*.spec.ts"
   },
   "repository": {

@@ -2,6 +2,7 @@
 This NodeJS server was authored in the KOA framework with TypeScript.
 
 [![Build Status](https://travis-ci.org/ddimaria/music-tracks.svg?branch=develop)](https://travis-ci.org/ddimaria/music-tracks)
+[![Coverage Status](https://coveralls.io/repos/github/ddimaria/music-tracks/badge.svg?branch=develop)](https://coveralls.io/github/ddimaria/music-tracks?branch=develop)
 
 The functional requirements are:
 * Create an endpoint for rendering a json list of tracks. The endpoint should demonstrate the following behavior:
@@ -46,7 +47,7 @@ npm run fix
 ## Tests and Coverage
 The test coverage percentage should be 90% or greater for any submitted PRs.
 
-For TDD, invoke continuous testing by:
+For TDD, invoke testing by:
 ```shell
 npm test
 ```

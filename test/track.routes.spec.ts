@@ -8,11 +8,7 @@ const PATH = '/api/v1/tracks';
 
 describe('routes: tracks', () => {
 
-  beforeEach(() => {
-  });
-
-  after(() => {
-  });
+  after(() => server.close());
 
   describe(`GET /`, () => {
     it('should error on the default route with a 401', done => {

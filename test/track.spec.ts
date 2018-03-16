@@ -18,9 +18,6 @@ const fullParams = (keyword: string) => ({
 });
 
 describe('tracks', () => {
-  beforeEach(() => {});
-
-  afterEach(() => {});
 
   it('should return 2 tracks', done => {
     const tracks = getTracks('test', 'all', 2);
