@@ -14,6 +14,10 @@
     "test": "node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.spec.ts",
     "coverage": "node_modules/nyc/bin/nyc.js --reporter=html --reporter=text node_modules/mocha/bin/mocha --exit -r ts-node/register ./test/**/*.spec.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddimaria/music-tracks.git"
+  },
   "keywords": [
     "loyalty",
     "checkin",

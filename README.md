@@ -1,6 +1,7 @@
 # Music Tracks
 This NodeJS server was authored in the KOA framework with TypeScript.
 
+[![Build Status](https://travis-ci.org/ddimaria/music-tracks.svg?branch=develop)](https://travis-ci.org/ddimaria/music-tracks)
 
 The functional requirements are:
 * Create an endpoint for rendering a json list of tracks. The endpoint should demonstrate the following behavior:
