@@ -1,7 +1,6 @@
 import * as chai from 'chai';
-import { expect, should } from 'chai';
+import { should } from 'chai';
 import { server } from './../app/app';
-// import {  } from './../app/track';
 
 chai.use(require('chai-http'));
 
