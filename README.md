@@ -74,6 +74,7 @@ npm run image:run -- start --
 Retrieves an array of tracks that match the query string criteria.
 #### Request
 Filters are passed in the query string:
+
 | Name | Type | Description | Possible Values |
 | --- | --- | --- | --- |
 | keyword | string | All or part of a word to match against | any string |
@@ -81,6 +82,7 @@ Filters are passed in the query string:
 | limit | number | Limits the number of returned matches | any positive integer |
 | offset | number | For paging, it specifies the number of rows to skip | any positive integer |
 | sort | string | Sorts the results: `+` for asc, `-` for desc | +name,+filesize,+duration,+playlistcount |
+
 #### Response
 If not matches, then a `404 Not Found` is returned, otherwise:
 ```js
