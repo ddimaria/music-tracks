@@ -1,0 +1,93 @@
+swagger: "2.0"
+info:
+  description: "A super cool endpoint for rendering a json list of tracks."
+  version: "1.0.0"
+  title: "Music Tracks"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:3000"
+basePath: "/api/v1"
+schemes:
+- "http"
+paths:
+  /tracks:
+    get:
+      summary: "Search for tracks"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "keyword"
+        in: "query"
+        description: "All or part of a word to match against"
+        required: false
+        type: "string"
+      - name: "category"
+        in: "query"
+        description: "Catetories to search"
+        required: false
+        type: "string"
+        items:
+          type: "string"
+          enum:
+          - "name"
+          - "composer"
+          - "sold"
+          - "album"
+          - "genre"
+          - "artist"
+          - "all"
+          default: "all"
+      - name: "limit"
+        in: "query"
+        description: "Limits the number of returned matches"
+        required: false
+        type: "integer"
+      - name: "offset"
+        in: "query"
+        description: "For paging, it specifies the number of rows to skip"
+        required: false
+        type: "integer"
+      - name: "sort"
+        in: "query"
+        description: "Sorts the results: `+` for asc, `-` for desc"
+        required: false
+        type: "string"
+        items:
+          type: "string"
+          enum:
+          - "+name"
+          - "-name"
+          - "+filesize"
+          - "-filesize"
+          - "+duration"
+          - "-duration"
+          - "+playlistcount"
+          - "-playlistcount"
+          default: "+name"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Track"
+        400:
+          description: "Invalid status value"
+definitions:
+  Track:
+    type: "object"
+    properties:
+      Name:
+        type: "string"
+        description: "The name of the track"
+      Filesize:
+        type: "number"
+        description: "The size of the file in MB"
+      Duration:
+        type: "number"
+        description: "The druation of the file in minutes"
+      PlaylistCount:
+        type: "integer"
+        format: "int32"
+        description: "The number of playists this track appears in"

@@ -68,6 +68,7 @@ npm run image:run -- start --
 ---
 
 ## API
+For a swagger version of this documention, see http://localhost:3000/swagger
 
 ## Get Tracks
 #### GET `/api/v1/tracks?keyword={keyword}&category={category}&limit={limit}&offset={offset}&sort={sort}`
