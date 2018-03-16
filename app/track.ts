@@ -12,11 +12,12 @@ type StringObject = { [key: string]: string };
  * @param {number} limit
  * @return {object[]}
  */
-export const getTracks = (keyword: string, category: string, limit: number, offset: number = 0) => {
+export const getTracks = (keyword: string, category: string, limit: number, offset: number = 0, sort: string = 'name') => {
   const filters = getFilters(keyword, category);
   const offsetClause = `${safeInteger(offset)},`;
   const limitClause: string = limit  ? `limit ${offsetClause}${safeInteger(limit)}` : '';
-  console.log(limitClause);
+  const orderClause = `ORDER BY ${parseSort(sort)}`;
+
   return db
     .prepare(`
       SELECT t.Name,
@@ -27,6 +28,7 @@ export const getTracks = (keyword: string, category: string, limit: number, offs
         left join Genre g on t.GenreId = g.GenreId
         left join Artist art on a.ArtistId = art.ArtistId
       ${filters.where}
+      ${orderClause}
       ${limitClause}
     `)
     .all(filters.params);
@@ -70,6 +72,7 @@ export const getWhere = (categories: StringObject): string => {
  * @return {StringObject}
  */
 export const getCategories = (category: string = 'all'): StringObject => {
+  const packaged = normalizeAndPackage(category);
   const categories: StringObject = {
     name: 't.Name',
     composer: 't.Composer',
@@ -78,15 +81,35 @@ export const getCategories = (category: string = 'all'): StringObject => {
     artist: 'art.Name',
   };
 
-  const packaged = category
-    .toLowerCase()
-    .trim()
-    .split(',')
-    .map(cat => cat.trim());
-
   return category === 'all' || !category
     ? categories
     : pick(categories, packaged);
+};
+
+/**
+ * Parse the sort string
+ *
+ * @param {string} sort  The sort string
+ * @return {string}
+ */
+export const parseSort = (sort: string = 'name'): any => {
+  const packaged = normalizeAndPackage(sort);
+  const clean = (item: string) => item.replace(/[^A-Za-z]/g, '');
+  const keys: StringObject = {
+    name: 't.Name',
+    filesize: 'Filesize',
+    duration: 'Duration',
+    playlistcount: 'PlaylistCount',
+  };
+
+  const ordered = packaged
+    .filter(item => keys[clean(item)])
+    .map(item => {
+      const order = item.charAt(0) === '-' ? 'desc' : 'asc';
+      return `${keys[clean(item)]} ${order}`;
+    });
+
+  return ordered.join(', ');
 };
 
 /**
@@ -104,4 +127,12 @@ const safeInteger = (integer: number, defaultValue: number | null = 0): number =
   return Number.isInteger(integer)
     ? Math.abs(integer)
     : 0;
+};
+
+const normalizeAndPackage = (commaString: string) => {
+  return commaString
+    .toLowerCase()
+    .trim()
+    .split(',')
+    .map(item => item.trim());
 };

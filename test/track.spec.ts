@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getTracks, getFilters, getWhere, getCategories } from './../app/track';
+import { getTracks, getFilters, getWhere, getCategories, parseSort } from './../app/track';
 
 const fullCategories = {
   name: 't.Name',
@@ -25,14 +25,21 @@ describe('tracks', () => {
   it('should return 2 tracks', done => {
     const tracks = getTracks('test', 'all', 2);
 
-    expect(tracks).to.eql([ { Name: 'A Kind Of Magic',
-    Filesize: 8.29,
-    Duration: 4.38,
-    PlaylistCount: 2 },
-  { Name: 'Under Pressure',
-    Filesize: 7.38,
-    Duration: 3.94,
-    PlaylistCount: 2 } ]);
+    expect(tracks).to.eql([
+      {
+        'Name': '1979',
+        'Filesize': 8.32,
+        'Duration': 4.39,
+        'PlaylistCount': 3
+      },
+      {
+        'Name': 'A Kind Of Magic',
+        'Filesize': 8.29,
+        'Duration': 4.38,
+        'PlaylistCount': 2
+      }
+    ]);
+
     done();
   });
 
@@ -69,14 +76,6 @@ describe('tracks', () => {
     done();
   });
 
-  it('', done => {
-    const categories = getCategories('composer,album');
-    const where = getWhere(categories);
-    const expected = 'where t.Composer like @composer or a.Title like @album';
-    expect(where).to.eql(expected);
-    done();
-  });
-
   it('should return a full object for "all"', done => {
     const categories = getCategories('all');
     expect(categories).to.eql(fullCategories);
@@ -101,9 +100,16 @@ describe('tracks', () => {
     done();
   });
 
-  it('handle spaces in the categories param', done => {
+  it('should handle spaces in the categories param', done => {
     const categories = getCategories(' composer, album ');
     expect(categories).to.eql({ composer: 't.Composer', album: 'a.Title' });
     done();
   });
+
+  it('should parse a sort string', done => {
+    const sort = parseSort('-name,-duration,+filesize,-playlistcount');
+    expect(sort).to.eql('t.Name desc, Duration desc, Filesize asc, PlaylistCount desc');
+    done();
+  });
+
 });

@@ -20,8 +20,8 @@ router.get('/healthcheck', async ctx => ctx.body = 'OK');
  * Search for tracks
  */
 router.get('/api/v1/tracks', async ctx => {
-  const { category, keyword, limit, offset } = ctx.request.query;
-  const tracks = getTracks(keyword, category, limit, offset);
+  const { category, keyword, limit, offset, sort } = ctx.request.query;
+  const tracks = getTracks(keyword, category, limit, offset, sort);
   const hasTracks = !!tracks.length;
 
   ctx.status = hasTracks ? 200 : 404;

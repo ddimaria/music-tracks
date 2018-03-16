@@ -70,16 +70,17 @@ npm run image:run -- start --
 ## API
 
 ## Get Tracks
-#### GET `/api/v1/tracks?keyword={keyword}&category={category}&limit={limit}&offset={offset}`
+#### GET `/api/v1/tracks?keyword={keyword}&category={category}&limit={limit}&offset={offset}&sort={sort}`
 Retrieves an array of tracks that match the query string criteria.
 #### Request
 Filters are passed in the query string:
-| Name | Type | Description | Possible Values
-| --- | --- | --- | ---
-| keyword | string | All or part of a word to match against | any string
-| category | string | Catetories to search | name, composer, album, genre, artist, all (default),
-| limit | number | Limits the number of returned matches | any positive integer
-| offset | number | Specifies the number of rows to skip | any positive integer
+| Name | Type | Description | Possible Values |
+| --- | --- | --- | --- |
+| keyword | string | All or part of a word to match against | any string |
+| category | string | Catetories to search | name, composer, album, genre, artist, all (default) |
+| limit | number | Limits the number of returned matches | any positive integer |
+| offset | number | For paging, it specifies the number of rows to skip | any positive integer |
+| sort | string | Sorts the results: `+` for asc, `-` for desc | +name,+filesize,+duration,+playlistcount |
 #### Response
 If not matches, then a `404 Not Found` is returned, otherwise:
 ```js
@@ -94,11 +95,10 @@ If not matches, then a `404 Not Found` is returned, otherwise:
 ]
 ```
 
-
 ---
 
 ## Assumptions
-* Megabytes expressed in base 2
+* Megabytes expressed in base 2.
 
 ## Design Decisions
 * Since I've only played with `KOA` once before, it was chosen as the node server framework.
@@ -110,6 +110,6 @@ If not matches, then a `404 Not Found` is returned, otherwise:
 ## Thoughts on Improvements
 Because time was limited, there were many improvements I didn't implement.  These include:
 * As the project grows, segment files into folders (e.g. routes, config, db, models, controllers ...etc).
-* Implement knex + sequelize, create migrations for the tables and add some seed data.
+* Implement knex or sequelize.
 * Swaggerize the docblocks for the routes.
-* Implement a .env file.
+* Implement a .env file with `dotenv`.
