@@ -8,5 +8,6 @@ script:
   - npm test
   - npm run lint
   - npm run coverage
+  - npm run coverage:coveralls
 after_script:
   - cat ./build/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js

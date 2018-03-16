@@ -12,7 +12,8 @@
     "image:build": "docker build --tag loyalty-checkin .",
     "image:run": "docker run --rm -ti loyalty-checkin",
     "test": "node_modules/mocha/bin/mocha -r ts-node/register ./test/**/*.spec.ts && exit 0",
-    "coverage": "node_modules/nyc/bin/nyc.js --reporter=html --reporter=text --reporter=lcov node_modules/mocha/bin/mocha --exit -r ts-node/register ./test/**/*.spec.ts"
+    "coverage": "node_modules/nyc/bin/nyc.js --reporter=html --reporter=text node_modules/mocha/bin/mocha --exit -r ts-node/register ./test/**/*.spec.ts",
+    "coverage:coveralls": "node_modules/nyc/bin/nyc.js --reporter=lcov --reporter=text-lcov node_modules/mocha/bin/mocha --exit -r ts-node/register ./test/**/*.spec.ts | coveralls"
   },
   "repository": {
     "type": "git",

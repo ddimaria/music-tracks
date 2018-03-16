@@ -1,8 +1,8 @@
 # Music Tracks
-This NodeJS server was authored in the KOA framework with TypeScript.
-
 [![Build Status](https://travis-ci.org/ddimaria/music-tracks.svg?branch=develop)](https://travis-ci.org/ddimaria/music-tracks)
 [![Coverage Status](https://coveralls.io/repos/github/ddimaria/music-tracks/badge.svg?branch=develop)](https://coveralls.io/github/ddimaria/music-tracks?branch=develop)
+
+This NodeJS server was authored in the KOA framework with TypeScript.
 
 The functional requirements are:
 * Create an endpoint for rendering a json list of tracks. The endpoint should demonstrate the following behavior:
@@ -70,7 +70,7 @@ npm run image:run -- start --
 ---
 
 ## API
-For a swagger version of this documention, see http://localhost:3000/swagger
+For a swagger version of this documention, see http://localhost:3000/swagger (requires this server to be running).
 
 ## Get Tracks
 #### GET `/api/v1/tracks?keyword={keyword}&category={category}&limit={limit}&offset={offset}&sort={sort}`
@@ -116,5 +116,4 @@ If not matches, then a `404 Not Found` is returned, otherwise:
 Because time was limited, there were many improvements I didn't implement.  These include:
 * As the project grows, segment files into folders (e.g. routes, config, db, models, controllers ...etc).
 * Implement knex or sequelize.
-* Swaggerize the docblocks for the routes.
 * Implement a .env file with `dotenv`.
