@@ -62,11 +62,6 @@ To build a container using the `dockerfile`:
 npm run image:build -- --no-cache
 ```
 
-To run the server within the container:
-```shell
-npm run image:run -- start --
-```
-
 ---
 
 ## API
