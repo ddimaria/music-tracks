@@ -21,8 +21,8 @@ export const getTracks = (keyword: string, category: string, limit: number, offs
   return db
     .prepare(`
       SELECT t.Name,
-        CAST(printf('%.2f', CAST(t.Bytes as REAL)/(1024*1024)) as Number) as Filesize,
-        CAST(printf('%.2f', CAST(t.milliseconds as REAL)/60000) as Number) as Duration,
+        CAST(printf('%.2f', CAST(t.Bytes as REAL)/(1024*1024)) as Number) as Filesize,          /* bytes to MB */
+        CAST(printf('%.2f', CAST(t.milliseconds as REAL)/60000) as Number) as Duration,         /* ms to minutes */
         (SELECT COUNT(*) FROM PlaylistTrack pt WHERE pt.TrackId = t.TrackId) as PlaylistCount
       FROM Track t left join Album a on t.AlbumId = a.AlbumId
         left join Genre g on t.GenreId = g.GenreId
@@ -44,9 +44,9 @@ export const getTracks = (keyword: string, category: string, limit: number, offs
 export const getFilters = (keyword: string = '', category: string = 'all') => {
   if (!keyword.trim()) return { where: '', params: {} };
 
-  const categories = getCategories(category);
+  const categories = getCategories(category);                   // get key/value pairs of categories that were requested
   const where = getWhere(categories);
-  const params = mapValues(categories, () => `%${keyword}%`);
+  const params = mapValues(categories, () => `%${keyword}%`);   // keep keys, transform values
 
   return { where: where, params: params };
 };
@@ -67,12 +67,13 @@ export const getWhere = (categories: StringObject): string => {
 
 /**
  * Return categories to search the database
+ * Map query param categories to DB columns
  *
  * @param {string} category  The categories to search (comma delimited)
  * @return {StringObject}
  */
 export const getCategories = (category: string = 'all'): StringObject => {
-  const packaged = normalizeAndPackage(category);
+  const packaged = normalizeAndPackage(category); // normalize categories and put into an array
   const categories: StringObject = {
     name: 't.Name',
     composer: 't.Composer',
@@ -82,8 +83,8 @@ export const getCategories = (category: string = 'all'): StringObject => {
   };
 
   return category === 'all' || !category
-    ? categories
-    : pick(categories, packaged);
+    ? categories                   // all categories
+    : pick(categories, packaged);  // only return mapped key/value pairs of categories that were requested
 };
 
 /**
@@ -122,14 +123,20 @@ export const parseSort = (sort: string = 'name'): any => {
  * @return {number}
  */
 const safeInteger = (integer: number, defaultValue: number | null = 0): number => {
-  integer = Number(integer);
+  integer = Number(integer);  // type conversion, non-numbers convert to NaN
 
   return Number.isInteger(integer)
     ? Math.abs(integer)
-    : 0;
+    : defaultValue;
 };
 
-const normalizeAndPackage = (commaString: string) => {
+/**
+ * Remove spaces everywhere and lowercase
+ *
+ * @param {string} commaString
+ * @return {string[]}
+ */
+const normalizeAndPackage = (commaString: string): string[] => {
   return commaString
     .toLowerCase()
     .trim()
